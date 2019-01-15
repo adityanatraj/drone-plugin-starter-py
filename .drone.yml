@@ -1,0 +1,28 @@
+build:
+  test:
+    image: python:3.7
+    commands:
+      - pip install --upgrade pip
+      - pip install -r requirements.txt
+      - flake8 src/
+      - py.test src/
+    when:
+      event: push
+
+publish:
+  docker:
+    username: $$DOCKER_USER
+    password: $$DOCKER_PASS
+    email: $$DOCKER_EMAIL
+    repo: plugins/my-plugin
+    tag: latest
+
+plugin:
+  name: My Plugin
+  desc: Description of My Plugin
+  type: publish|deploy|notify|clone|cache
+  image: plugins/my-plugin
+  labels:
+    - label1
+    - label2
+    - label3
